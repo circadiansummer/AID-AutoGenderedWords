@@ -2,7 +2,7 @@
 
 ### Automatic gender-aware wording for AI Dungeon scenarios
 
-**Current Version:** 0.1.0-beta.1
+**Current Version:** 1.0.0
 
 ---
 
@@ -105,7 +105,7 @@ What is your gender?
 
 ### Recommended Setup
 
-For the beta, the simplest option is to include the placeholder naturally in either your Opening Story Text or Plot Essentials.
+The simplest option is to include the placeholder naturally in either your Opening Story Text or Plot Essentials.
 
 For example, Plot Essentials could contain:
 
@@ -349,7 +349,7 @@ AutoGenderedWords only cares that the expression contains exactly three comma-se
 
 # Supported Scenario Fields
 
-AutoGenderedWords 0.1.0-beta.1 supports:
+AutoGenderedWords 1.0.0 supports:
 
 | Scenario Content | Supported? | Notes |
 | --- | --- | --- |
@@ -840,17 +840,17 @@ Cards created afterward are outside its scope.
 
 ### Story Summary Didn't Change
 
-Story Summary is not supported in 0.1.0-beta.1.
+Story Summary is not supported in 1.0.0.
 
 ### AI Instructions Didn't Change
 
-AI Instructions are not supported in 0.1.0-beta.1.
+AI Instructions are not supported in 1.0.0.
 
 ---
 
-# Beta Testing
+# Testing & Issue Reports
 
-AutoGenderedWords is currently intended for limited creator testing.
+AutoGenderedWords 1.0.0 is ready for creator use. If you encounter unexpected behavior, test from a newly created Adventure and include the relevant setup details when reporting the issue.
 
 Useful test cases include:
 
@@ -879,7 +879,7 @@ If something behaves incorrectly, please include:
 
 # Current Limitations
 
-AutoGenderedWords 0.1.0-beta.1 does not currently process:
+AutoGenderedWords 1.0.0 does not currently process:
 
 - Story Summary
 - AI Instructions
@@ -893,6 +893,18 @@ It is designed specifically to resolve **pre-established Scenario content during
 ---
 
 # Changelog
+
+## 1.0.0
+
+- First stable release.
+- Promoted the tested beta behavior to version 1.0.0.
+- Reads the exact ${What is your gender?} Scenario placeholder response at Adventure startup.
+- Classifies responses as masculine, feminine, or neutral/unknown.
+- Resolves :masculine,feminine,neutral: expressions in Opening Story Text, Plot Essentials, Author's Note, and existing Story Card Entries.
+- Preserves optional whitespace and slash-containing choices.
+- Uses the third option as the safe fallback for neutral, unknown, ambiguous, or contradictory answers.
+- Runs its replacement pass only at Adventure initialization.
+- Story Summary and AI Instructions remain intentionally unsupported.
 
 ## 0.1.0-beta.1
 
@@ -956,6 +968,6 @@ Uses the third / neutral option.
 
 ---
 
-**AutoGenderedWords v0.1.0-beta.1**
+**AutoGenderedWords v1.0.0**
 
 Built for creator-authored AI Dungeon scenarios where one gender question should be enough.
