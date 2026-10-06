@@ -1,3 +1,5 @@
+![cover image](https://github.com/circadiansummer/AID-AutoGenderedWords/blob/main/coverimage.png?raw=true)
+
 # AutoGenderedWords
 
 ### Automatic gender-aware wording for AI Dungeon scenarios
