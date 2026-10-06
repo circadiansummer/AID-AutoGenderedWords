@@ -174,9 +174,9 @@ The choices are always interpreted in this order:
 where:
 
 ~~~text
-first  = masculine
-second = feminine
-third  = gender-neutral
+first  = masculine player-submitted gender
+second = feminine player-submitted gender
+third  = gender-neutral or unknown submission
 ~~~
 
 For example:
