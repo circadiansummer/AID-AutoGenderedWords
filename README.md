@@ -10,6 +10,69 @@
 
 AutoGenderedWords is an AI Dungeon scenario script that allows creators to write gender-variable text without asking players to manually select every pronoun, relationship term, title, or other gendered word.
 
+### Short Version?
+
+If a player answers the 'What is your gender?' question with female, AGW corrects existing plot materials (Story Start, Story Cards, Plot Essentials, Author's Note) to include the correctly gendered version of terms like he/she/they or father/mother/parent. 
+
+
+The player does **not** need to answer separate prompts such as:
+
+~~~text
+${he/she/they}
+${him/her/them}
+${his/her/their}
+~~~
+
+The system can also handle words that change because of singular "they".
+
+~~~text
+:is,is,are:
+:was,was,were:
+:has,has,have:
+:does,does,do:
+~~~
+
+For example:
+
+~~~text
+:He,She,They: :is,is,are: waiting outside.
+~~~
+
+can become:
+
+~~~text
+They are waiting outside.
+~~~
+
+The system can also handle words that change because of singular "they".
+
+~~~text
+:is,is,are:
+:was,was,were:
+:has,has,have:
+:does,does,do:
+~~~
+
+For example:
+
+~~~text
+:He,She,They: :is,is,are: waiting outside.
+~~~
+
+can become:
+
+~~~text
+They are waiting outside.
+~~~
+
+**Three rules keep this functional:**
+1) This must be added and set up during scenario creation, not during adventure play
+2) Creators must include the exact placeholder ${What is your gender?} somewhere in their scenario materials.
+3) Creators must flag gendered terms for the script to update using the following format: :Masculine, Feminine, Neutral:
+   ex. You are the oldest :son, daughter, child: of the king.
+
+### Here's how it works:
+
 The creator writes three possible versions of a word using a simple format:
 
 ~~~text
@@ -37,29 +100,11 @@ She is the king's daughter.
 ~~~
 
 AutoGenderedWords performs this setup once when the Adventure begins. It does not continuously monitor or rewrite the Adventure during gameplay.
-
----
-
-## Main Features
-
-| Feature | Description |
-| --- | --- |
-| Automatic Gender Detection | Reads the player's answer to ${What is your gender?} |
-| Three-Way Word Selection | Supports masculine, feminine, and gender-neutral wording |
-| Simple Creator Syntax | Write :he,she,they: directly while building the scenario |
-| Visible Story Start Replacement | Gendered wording is resolved before the Opening Story Text is shown to the player |
-| Plot Component Support | Processes Plot Essentials and Author's Note at Adventure startup |
-| Story Card Support | Processes the Entry of every Story Card present when the Adventure begins |
-| Flexible Vocabulary | Creators are not restricted to a predefined list of gendered words |
-| Neutral Fallback | Unknown or ambiguous gender answers automatically use the third option |
-| One-Time Processing | Performs its work at Adventure startup instead of scanning every turn |
-| No Extra Player Prompts | Only the normal ${What is your gender?} Scenario placeholder is required |
-
 ---
 
 # ⚠️ Creator Setup Is Required
 
-**Installing the JavaScript by itself is not enough.**
+**Installing the Script by itself is not enough.**
 
 AutoGenderedWords requires the Scenario creator to prepare their Scenario using two specific rules.
 
@@ -113,7 +158,7 @@ For example, Plot Essentials could contain:
 Player gender: ${What is your gender?}
 ~~~
 
-AI Dungeon asks the player the question while creating their Adventure and stores their response.
+AI Dungeon then asks the player the question while creating their Adventure and stores their response.
 
 AutoGenderedWords then reads that response automatically.
 
