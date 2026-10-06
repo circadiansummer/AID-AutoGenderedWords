@@ -384,13 +384,13 @@ AutoGenderedWords 1.0.0 has been fully validated through AI Dungeon's traditiona
 | Scenario Content | Traditional Scenario Scripts | New Script Library | Notes |
 | --- | --- | --- | --- |
 | Opening Story Text | ✅ Confirmed | ⚠️ Player-facing replacement not reflected | The script resolves the startup Input text correctly in traditional Scenario scripting. When added through the new Script Library interface, the visible Story Start has not reflected the replacement in current testing. |
-| Plot Essentials | ✅ Confirmed | ❓ Not yet independently verified | Processed during the one-time startup pass. |
-| Author's Note | ✅ Confirmed | ❓ Not yet independently verified | Processed during the one-time startup pass. |
-| Existing Story Card Entries | ✅ Confirmed | ❓ Not yet independently verified | Every Story Card present at Adventure startup is processed. |
+| Plot Essentials | ✅ Confirmed | ✅ Confirmed | Processed during the one-time startup pass. |
+| Author's Note | ✅ Confirmed | ✅ Confirmed | Processed during the one-time startup pass. |
+| Existing Story Card Entries | ✅ Confirmed | ✅ Confirmed | Every Story Card present at Adventure startup is processed. |
 | Story Summary | ❌ Not supported | ❌ Not supported | AutoGenderedWords does not process Story Summary. |
 | AI Instructions | ❌ Not supported | ❌ Not supported | AutoGenderedWords does not process AI Instructions. |
 
-> **Installation note:** For full, confirmed AutoGenderedWords functionality—including visible Opening Story Text replacement—use AI Dungeon's traditional Scenario scripting setup. The newer Script Library interface currently has a known limitation or behavioral difference affecting the player-facing Story Start.
+> **Installation note:** AutoGenderedWords is confirmed to work through both AI Dungeon's traditional Scenario scripting setup and the newer Script Library for Plot Essentials, Author's Note, and existing Story Card Entries. The only currently confirmed Script Library limitation is player-facing Opening Story Text replacement, which does not reflect correctly there.
 
 ### Story Card Limitation
 
