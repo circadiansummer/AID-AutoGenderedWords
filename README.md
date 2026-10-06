@@ -14,6 +14,17 @@ AutoGenderedWords is an AI Dungeon scenario script that allows creators to write
 
 If a player answers the 'What is your gender?' question with male or female or another option, AGW corrects existing plot materials (Story Start, Story Cards, Plot Essentials, Author's Note) to include the correctly gendered version of terms like he/she/they or father/mother/parent. 
 
+So if a player starts their adventure and answers 'Female' to 'What is your gender?'...
+
+~~~text
+You are the oldest :son,daughter,child: of the king and next in line to become :king, queen, the ruler:
+~~~
+
+will become:
+
+~~~text
+You are the oldest daughter of the king and next in line to become queen.
+~~~
 
 The player does **not** need to answer separate prompts such as:
 
@@ -24,34 +35,6 @@ ${his/her/their}
 ~~~
 
 The system can also handle words that change because of singular "they".
-
-~~~text
-:is,is,are:
-:was,was,were:
-:has,has,have:
-:does,does,do:
-~~~
-
-For example:
-
-~~~text
-:He,She,They: :is,is,are: waiting outside.
-~~~
-
-can become:
-
-~~~text
-They are waiting outside.
-~~~
-
-The system can also handle words that change because of singular "they".
-
-~~~text
-:is,is,are:
-:was,was,were:
-:has,has,have:
-:does,does,do:
-~~~
 
 For example:
 
