@@ -12,7 +12,7 @@ AutoGenderedWords is an AI Dungeon scenario script that allows creators to write
 
 ### Short Version?
 
-If a player answers the 'What is your gender?' question with female, AGW corrects existing plot materials (Story Start, Story Cards, Plot Essentials, Author's Note) to include the correctly gendered version of terms like he/she/they or father/mother/parent. 
+If a player answers the 'What is your gender?' question with male or female or another option, AGW corrects existing plot materials (Story Start, Story Cards, Plot Essentials, Author's Note) to include the correctly gendered version of terms like he/she/they or father/mother/parent. 
 
 
 The player does **not** need to answer separate prompts such as:
