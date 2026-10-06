@@ -379,16 +379,18 @@ AutoGenderedWords only cares that the expression contains exactly three comma-se
 
 # Supported Scenario Fields
 
-AutoGenderedWords 1.0.0 supports:
+AutoGenderedWords 1.0.0 has been fully validated through AI Dungeon's traditional Scenario scripting view. AI Dungeon's newer Script Library installation path does not currently behave identically for every field.
 
-| Scenario Content | Supported? | Notes |
-| --- | --- | --- |
-| Opening Story Text | ✅ Yes | Player-facing text is visibly resolved before the Adventure begins |
-| Plot Essentials | ✅ Yes | Processed during startup |
-| Author's Note | ✅ Yes | Processed during startup |
-| Existing Story Card Entries | ✅ Yes | Every card present at Adventure startup is processed |
-| Story Summary | ❌ No | Not supported in this version |
-| AI Instructions | ❌ No | Not supported in this version |
+| Scenario Content | Traditional Scenario Scripts | New Script Library | Notes |
+| --- | --- | --- | --- |
+| Opening Story Text | ✅ Confirmed | ⚠️ Player-facing replacement not reflected | The script resolves the startup Input text correctly in traditional Scenario scripting. When added through the new Script Library interface, the visible Story Start has not reflected the replacement in current testing. |
+| Plot Essentials | ✅ Confirmed | ❓ Not yet independently verified | Processed during the one-time startup pass. |
+| Author's Note | ✅ Confirmed | ❓ Not yet independently verified | Processed during the one-time startup pass. |
+| Existing Story Card Entries | ✅ Confirmed | ❓ Not yet independently verified | Every Story Card present at Adventure startup is processed. |
+| Story Summary | ❌ Not supported | ❌ Not supported | AutoGenderedWords does not process Story Summary. |
+| AI Instructions | ❌ Not supported | ❌ Not supported | AutoGenderedWords does not process AI Instructions. |
+
+> **Installation note:** For full, confirmed AutoGenderedWords functionality—including visible Opening Story Text replacement—use AI Dungeon's traditional Scenario scripting setup. The newer Script Library interface currently has a known limitation or behavioral difference affecting the player-facing Story Start.
 
 ### Story Card Limitation
 
