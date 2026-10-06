@@ -91,7 +91,7 @@ AutoGenderedWords performs this setup once when the Adventure begins. It does no
 
 **Installing the Script by itself is not enough.**
 
-AutoGenderedWords requires the Scenario creator to prepare their Scenario using two specific rules.
+AutoGenderedWords requires the Scenario creator to prepare their Scenario using two specific rules. As such, it cannot be added to an existing Adventure, only a Scenario.
 
 Every Scenario using AutoGenderedWords must:
 
@@ -404,97 +404,6 @@ It does not process:
 - Other unsupported metadata
 
 Put AutoGenderedWords syntax inside the Story Card **Entry**.
-
----
-
-# Story Cards Created Later
-
-AutoGenderedWords is intentionally a one-time initialization script.
-
-It processes Story Cards that already exist when the Adventure starts.
-
-Story Cards created later during gameplay by the player, another script, Auto-Cards, or another automated system are **not processed by AutoGenderedWords**.
-
-Those systems should create their new cards using the already-correct gendered wording.
-
----
-
-# Gender Detection
-
-AutoGenderedWords places the player's answer into one of three categories:
-
-~~~text
-masculine
-feminine
-neutral
-~~~
-
-### Common Masculine Responses
-
-~~~text
-male
-man
-boy
-masculine
-masc
-m
-he
-him
-he/him
-cis male
-cis man
-cisgender male
-trans male
-trans man
-transgender male
-transmasculine
-guy
-gentleman
-dude
-~~~
-
-### Common Feminine Responses
-
-~~~text
-female
-woman
-girl
-feminine
-fem
-f
-she
-her
-she/her
-cis female
-cis woman
-cisgender female
-trans female
-trans woman
-transgender female
-transfeminine
-lady
-gal
-~~~
-
-### Common Neutral Responses
-
-~~~text
-nonbinary
-non-binary
-enby
-nb
-gender neutral
-they
-them
-they/them
-agender
-genderqueer
-genderfluid
-gender nonconforming
-~~~
-
-Punctuation differences such as "he/him" versus "he him", or "non-binary" versus "non binary", are normalized before classification.
-
 ---
 
 ## Unknown Answers
@@ -555,28 +464,13 @@ Open the Library tab.
 
 Copy the complete AutoGenderedWords Library code into it.
 
-If your Scenario already uses other Library code, AutoGenderedWords can coexist with it. Do not remove unrelated Library code unless you intend to.
+If your Scenario already uses other Library code, AutoGenderedWords can coexist with it.
 
 ---
 
 ## 3. Install the Input Hook
 
-AutoGenderedWords requires this call inside your Input modifier:
-
-~~~javascript
-text = AutoGenderedWords.run(text);
-~~~
-
-A basic Input script looks like:
-
-~~~javascript
-const modifier = (text) => {
-  text = AutoGenderedWords.run(text);
-  return { text };
-};
-
-modifier(text);
-~~~
+Copy the input.js code and paste it into your input field.
 
 If you already use other Input scripts, integrate the AutoGenderedWords call into the existing modifier rather than creating multiple separate modifier(text) calls.
 
@@ -620,7 +514,7 @@ Without the exact gender question, AutoGenderedWords cannot determine which opti
 
 ---
 
-## 5. Prepare Gendered Text
+## 5. Prepare Text
 
 Replace gender-variable wording with AutoGenderedWords expressions.
 
@@ -802,10 +696,7 @@ not:
 (first/second/third)
 ~~~
 
-or:
-
-~~~text
-[first,second,third]
+or another arrangement
 ~~~
 
 ### The Wrong Gender Was Selected
@@ -837,14 +728,6 @@ text = AutoGenderedWords.run(text);
 and that AutoGenderedWords is installed in Library.
 
 The visible Opening Story replacement depends on the Input hook running during the Adventure's initial action.
-
-### Plot Essentials or Author's Note Still Appear Unchanged in the Editor
-
-AutoGenderedWords modifies the runtime values used during the Adventure.
-
-Do not rely only on the Scenario Creator's original template text to determine whether the script has run.
-
-Use the Adventure and script logs when diagnosing behavior.
 
 ### A Story Card Wasn't Updated
 
@@ -880,35 +763,6 @@ AI Instructions are not supported in 1.0.0.
 
 ---
 
-# Testing & Issue Reports
-
-AutoGenderedWords 1.0.0 is ready for creator use. If you encounter unexpected behavior, test from a newly created Adventure and include the relevant setup details when reporting the issue.
-
-Useful test cases include:
-
-- male
-- female
-- nonbinary
-- he/him
-- she/her
-- they/them
-- an unknown response such as "dragon"
-- scenarios containing many Story Cards
-- scenarios using other Input scripts
-- word sets with spaces
-- word sets containing /
-- singular-they grammar such as :is,is,are:
-
-If something behaves incorrectly, please include:
-
-- the player's exact gender response,
-- the AutoGenderedWords expression involved,
-- which Scenario field contained it,
-- relevant script logs,
-- and any other scripts installed in the Scenario.
-
----
-
 # Current Limitations
 
 AutoGenderedWords 1.0.0 does not currently process:
@@ -921,39 +775,6 @@ AutoGenderedWords 1.0.0 does not currently process:
 - gender-variable text introduced later during gameplay
 
 It is designed specifically to resolve **pre-established Scenario content during Adventure initialization**.
-
----
-
-# Changelog
-
-## 1.0.0
-
-- First stable release.
-- Promoted the tested beta behavior to version 1.0.0.
-- Reads the exact ${What is your gender?} Scenario placeholder response at Adventure startup.
-- Classifies responses as masculine, feminine, or neutral/unknown.
-- Resolves :masculine,feminine,neutral: expressions in Opening Story Text, Plot Essentials, Author's Note, and existing Story Card Entries.
-- Preserves optional whitespace and slash-containing choices.
-- Uses the third option as the safe fallback for neutral, unknown, ambiguous, or contradictory answers.
-- Runs its replacement pass only at Adventure initialization.
-- Story Summary and AI Instructions remain intentionally unsupported.
-
-## 0.1.0-beta.1
-
-- First limited creator beta.
-- Added automatic gender classification from ${What is your gender?}.
-- Added masculine, feminine, and neutral/unknown modes.
-- Added :masculine,feminine,neutral: creator syntax.
-- Added optional whitespace support.
-- Added support for / inside individual choices.
-- Added visible Opening Story Text replacement.
-- Added Plot Essentials support.
-- Added Author's Note support.
-- Added existing Story Card Entry support.
-- Added neutral fallback for unknown or ambiguous answers.
-- Restricted processing to Adventure initialization.
-- Story Summary intentionally excluded.
-- AI Instructions intentionally excluded.
 
 ---
 
