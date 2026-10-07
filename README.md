@@ -627,7 +627,6 @@ not:
 ~~~
 
 or another arrangement
-~~~
 
 ### The Wrong Gender Was Selected
 
