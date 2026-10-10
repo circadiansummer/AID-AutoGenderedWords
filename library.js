@@ -1,6 +1,6 @@
 // ============================================================
 // AutoGenderedWords
-// Version 1.0.0
+// Version 1.1.0-beta.1
 // ============================================================
 //
 // AutoGenderedWords automatically selects gendered wording
@@ -57,6 +57,8 @@
 // - Plot Essentials
 // - Author's Note
 // - Existing Story Card entries
+// - Existing Story Card trigger keys
+// - Existing Story Card titles/names when exposed by runtime
 //
 // Story Summary and AI Instructions are not supported.
 //
@@ -74,7 +76,7 @@
 
 const AutoGenderedWords = (() => {
 
-  const VERSION = "1.0.0";
+  const VERSION = "1.1.0-beta.1";
 
   const STATE_KEY = "autoGenderedWords";
 
@@ -590,13 +592,27 @@ const AutoGenderedWords = (() => {
   // Adventure starts, whether or not that card is currently
   // triggered.
   //
-  // Only the Story Card Entry is processed.
-  // Keys and Type are left unchanged.
+  // Supported Story Card fields:
+  //
+  // - Entry
+  // - Trigger keys
+  // - Title/name when the runtime exposes that field
+  //
+  // Type and other metadata are left unchanged.
+  //
+  // AI Dungeon officially exposes Entry, keys, and Type to
+  // scripts. Title/name is handled defensively because some
+  // runtimes expose it on the Story Card object even though
+  // the documented updateStoryCard() signature does not.
   // ==========================================================
 
   function processStoryCards(mode) {
 
-    let replacements = 0;
+    let entryReplacements = 0;
+
+    let keyReplacements = 0;
+
+    let titleReplacements = 0;
 
     let cardsChanged = 0;
 
@@ -608,7 +624,10 @@ const AutoGenderedWords = (() => {
     ) {
 
       return {
-        replacements,
+        replacements: 0,
+        entryReplacements,
+        keyReplacements,
+        titleReplacements,
         cardsChanged
       };
 
@@ -625,38 +644,105 @@ const AutoGenderedWords = (() => {
         storyCards[i];
 
 
-      if (
-        !card ||
-        typeof card.entry !== "string"
-      ) {
+      if (!card) {
         continue;
       }
 
 
-      const result =
+      const entryResult =
         resolveWordSets(
           card.entry,
           mode
         );
 
 
+      const keyResult =
+        resolveWordSets(
+          card.keys,
+          mode
+        );
+
+
+      let titleField =
+        null;
+
+
       if (
-        result.count === 0
+        typeof card.title === "string"
+      ) {
+        titleField =
+          "title";
+      }
+      else if (
+        typeof card.name === "string"
+      ) {
+        titleField =
+          "name";
+      }
+
+
+      const titleResult =
+        resolveWordSets(
+          titleField
+            ? card[titleField]
+            : "",
+          mode
+        );
+
+
+      const supportedFieldChanged =
+        entryResult.count > 0 ||
+        keyResult.count > 0;
+
+
+      if (supportedFieldChanged) {
+
+        updateStoryCard(
+          i,
+          keyResult.text,
+          entryResult.text,
+          card.type
+        );
+
+      }
+
+
+      if (
+        titleField &&
+        titleResult.count > 0
+      ) {
+
+        const updatedCard =
+          storyCards[i] || card;
+
+
+        updatedCard[titleField] =
+          titleResult.text;
+
+      }
+
+
+      const cardReplacementCount =
+        entryResult.count +
+        keyResult.count +
+        titleResult.count;
+
+
+      if (
+        cardReplacementCount === 0
       ) {
         continue;
       }
 
 
-      updateStoryCard(
-        i,
-        card.keys,
-        result.text,
-        card.type
-      );
+      entryReplacements +=
+        entryResult.count;
 
+      keyReplacements +=
+        keyResult.count;
 
-      replacements +=
-        result.count;
+      titleReplacements +=
+        titleResult.count;
 
       cardsChanged += 1;
 
@@ -664,7 +750,13 @@ const AutoGenderedWords = (() => {
 
 
     return {
-      replacements,
+      replacements:
+        entryReplacements +
+        keyReplacements +
+        titleReplacements,
+      entryReplacements,
+      keyReplacements,
+      titleReplacements,
       cardsChanged
     };
 
@@ -819,6 +911,15 @@ const AutoGenderedWords = (() => {
     agwState.storyCardReplacements =
       cardResult.replacements;
 
+    agwState.storyCardEntryReplacements =
+      cardResult.entryReplacements;
+
+    agwState.storyCardKeyReplacements =
+      cardResult.keyReplacements;
+
+    agwState.storyCardTitleReplacements =
+      cardResult.titleReplacements;
+
     agwState.storyCardsChanged =
       cardResult.cardsChanged;
 
@@ -847,6 +948,12 @@ const AutoGenderedWords = (() => {
       authorsNoteReplacements +
       "; storyCards=" +
       cardResult.replacements +
+      "; storyCardEntries=" +
+      cardResult.entryReplacements +
+      "; storyCardKeys=" +
+      cardResult.keyReplacements +
+      "; storyCardTitles=" +
+      cardResult.titleReplacements +
       "; storyCardsChanged=" +
       cardResult.cardsChanged +
       "; total=" +
