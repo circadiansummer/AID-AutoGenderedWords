@@ -58,7 +58,7 @@
 // - Author's Note
 // - Existing Story Card entries
 // - Existing Story Card trigger keys
-// - Existing Story Card titles/names when exposed by runtime
+// - Existing Story Card titles/names
 //
 // Story Summary and AI Instructions are not supported.
 //
@@ -596,14 +596,15 @@ const AutoGenderedWords = (() => {
   //
   // - Entry
   // - Trigger keys
-  // - Title/name when the runtime exposes that field
+  // - Title/name
   //
   // Type and other metadata are left unchanged.
   //
-  // AI Dungeon officially exposes Entry, keys, and Type to
-  // scripts. Title/name is handled defensively because some
-  // runtimes expose it on the Story Card object even though
-  // the documented updateStoryCard() signature does not.
+  // AI Dungeon's documented updateStoryCard() helper does not
+  // include title, but the live storyCards objects expose the
+  // player-facing Name as card.title. Established scripts such
+  // as LewdLeah's Auto-Cards and Automata-Dungeon mutate that
+  // live title property directly, so AGW follows that pattern.
   // ==========================================================
 
   function processStoryCards(mode) {
@@ -663,28 +664,10 @@ const AutoGenderedWords = (() => {
         );
 
 
-      let titleField =
-        null;
-
-
-      if (
-        typeof card.title === "string"
-      ) {
-        titleField =
-          "title";
-      }
-      else if (
-        typeof card.name === "string"
-      ) {
-        titleField =
-          "name";
-      }
-
-
       const titleResult =
         resolveWordSets(
-          titleField
-            ? card[titleField]
+          typeof card.title === "string"
+            ? card.title
             : "",
           mode
         );
@@ -708,7 +691,6 @@ const AutoGenderedWords = (() => {
 
 
       if (
-        titleField &&
         titleResult.count > 0
       ) {
 
@@ -716,7 +698,7 @@ const AutoGenderedWords = (() => {
           storyCards[i] || card;
 
 
-        updatedCard[titleField] =
+        updatedCard.title =
           titleResult.text;
 
       }
