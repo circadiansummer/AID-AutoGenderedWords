@@ -4,7 +4,7 @@
 
 ### Automatic gender-aware wording for AI Dungeon scenarios
 
-**Current Version:** 1.0.0
+**Current Version:** 1.1.0-beta.1 (testing)
 
 ---
 
@@ -379,7 +379,7 @@ AutoGenderedWords only cares that the expression contains exactly three comma-se
 
 # Supported Scenario Fields
 
-AutoGenderedWords 1.0.0 has been fully validated through AI Dungeon's traditional Scenario scripting view. AI Dungeon's newer Script Library installation path does not currently behave identically for every field.
+AutoGenderedWords 1.0.0 has been fully validated through AI Dungeon's traditional Scenario scripting view. The 1.1.0 beta adds Story Card trigger/key resolution and experimental Story Card title/name resolution. AI Dungeon's newer Script Library installation path does not currently behave identically for every field.
 
 | Scenario Content | Traditional Scenario Scripts | New Script Library | Notes |
 | --- | --- | --- | --- |
@@ -387,23 +387,35 @@ AutoGenderedWords 1.0.0 has been fully validated through AI Dungeon's traditiona
 | Plot Essentials | ✅ Confirmed | ✅ Confirmed | Processed during the one-time startup pass. |
 | Author's Note | ✅ Confirmed | ✅ Confirmed | Processed during the one-time startup pass. |
 | Existing Story Card Entries | ✅ Confirmed | ✅ Confirmed | Every Story Card present at Adventure startup is processed. |
+| Existing Story Card Triggers/Keys | 🧪 1.1 beta | 🧪 1.1 beta | Resolved at startup and written through AI Dungeon's supported Story Card update API. |
+| Existing Story Card Names/Titles | 🧪 1.1 beta | 🧪 1.1 beta | The player-facing Story Card Name maps to `card.title`. AGW resolves it by directly mutating the live Story Card object, following the established pattern used by LewdLeah's Auto-Cards and Automata-Dungeon scripts. |
 | Story Summary | ❌ Not supported | ❌ Not supported | AutoGenderedWords does not process Story Summary. |
 | AI Instructions | ❌ Not supported | ❌ Not supported | AutoGenderedWords does not process AI Instructions. |
 
 > **Installation note:** AutoGenderedWords is confirmed to work through both AI Dungeon's traditional Scenario scripting setup and the newer Script Library for Plot Essentials, Author's Note, and existing Story Card Entries. The only currently confirmed Script Library limitation is player-facing Opening Story Text replacement, which does not reflect correctly there.
 
-### Story Card Limitation
+### Story Card Processing
 
-AutoGenderedWords processes the **Entry** of Story Cards.
+AutoGenderedWords 1.1 can process AutoGenderedWords syntax in:
 
-It does not process:
+- Story Card **Entry**
+- Story Card **Triggers/Keys**
+- Story Card **Name/Title**
 
-- Story Card names/titles
-- Triggers/keys
-- Story Card types
-- Other unsupported metadata
+For example, a Story Card can use:
 
-Put AutoGenderedWords syntax inside the Story Card **Entry**.
+~~~text
+Name: The :King,Queen,Ruler:
+Triggers: monarch,:king,queen,ruler:
+Entry: The :king,queen,ruler: governs the realm.
+~~~
+
+For a feminine selection, those values resolve to **The Queen**, **monarch,queen**, and **The queen governs the realm.**
+
+Story Card **Type** and other unsupported metadata are left unchanged.
+
+> **Title/name note:** AI Dungeon's documented `updateStoryCard()` helper does not include the title, but live `storyCards` objects expose the player-facing Story Card Name as `card.title`. LewdLeah's Auto-Cards and Automata-Dungeon scripts both directly mutate `card.title` (along with other Story Card fields), so AutoGenderedWords 1.1 uses the same established scripting pattern. This remains marked beta until independently confirmed in AutoGenderedWords testing.
+
 ---
 
 ## Unknown Answers
@@ -694,12 +706,12 @@ AI Instructions are not supported in 1.0.0.
 
 # Current Limitations
 
-AutoGenderedWords 1.0.0 does not currently process:
+AutoGenderedWords 1.1.0-beta.1 does not currently process:
 
 - Story Summary
 - AI Instructions
-- Story Card names
-- Story Card triggers/keys
+- Story Card types
+- Story Card Notes or other unsupported metadata
 - Story Cards created after Adventure startup
 - gender-variable text introduced later during gameplay
 
@@ -734,6 +746,8 @@ Opening Story Text
 Plot Essentials
 Author's Note
 Existing Story Card Entries
+Existing Story Card Triggers/Keys
+Story Card Names/Titles
 ~~~
 
 ### Not Supported
@@ -750,6 +764,6 @@ Uses the third / neutral option.
 
 ---
 
-**AutoGenderedWords v1.0.0**
+**AutoGenderedWords v1.1.0-beta.1**
 
 Built for creator-authored AI Dungeon scenarios where one gender question should be enough.
