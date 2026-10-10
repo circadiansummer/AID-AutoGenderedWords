@@ -388,7 +388,7 @@ AutoGenderedWords 1.0.0 has been fully validated through AI Dungeon's traditiona
 | Author's Note | ✅ Confirmed | ✅ Confirmed | Processed during the one-time startup pass. |
 | Existing Story Card Entries | ✅ Confirmed | ✅ Confirmed | Every Story Card present at Adventure startup is processed. |
 | Existing Story Card Triggers/Keys | 🧪 1.1 beta | 🧪 1.1 beta | Resolved at startup and written through AI Dungeon's supported Story Card update API. |
-| Existing Story Card Names/Titles | 🧪 1.1 beta | 🧪 1.1 beta | Resolved when the runtime exposes a writable `title` or `name` field; requires in-adventure confirmation because title/name is not part of AI Dungeon's documented scripting Story Card fields. |
+| Existing Story Card Names/Titles | 🧪 1.1 beta | 🧪 1.1 beta | The player-facing Story Card Name maps to `card.title`. AGW resolves it by directly mutating the live Story Card object, following the established pattern used by LewdLeah's Auto-Cards and Automata-Dungeon scripts. |
 | Story Summary | ❌ Not supported | ❌ Not supported | AutoGenderedWords does not process Story Summary. |
 | AI Instructions | ❌ Not supported | ❌ Not supported | AutoGenderedWords does not process AI Instructions. |
 
@@ -400,7 +400,7 @@ AutoGenderedWords 1.1 can process AutoGenderedWords syntax in:
 
 - Story Card **Entry**
 - Story Card **Triggers/Keys**
-- Story Card **Name/Title**, when that field is exposed by the runtime
+- Story Card **Name/Title**
 
 For example, a Story Card can use:
 
@@ -414,7 +414,7 @@ For a feminine selection, those values resolve to **The Queen**, **monarch,queen
 
 Story Card **Type** and other unsupported metadata are left unchanged.
 
-> **Title/name note:** AI Dungeon's documented scripting API currently exposes Story Card `id`, `keys`, `entry`, and `type`, and its documented `updateStoryCard()` function updates keys, entry, and type. The 1.1 beta therefore handles title/name only when the runtime provides a writable `title` or `name` property. This behavior should be tested before 1.1 is promoted to stable.
+> **Title/name note:** AI Dungeon's documented `updateStoryCard()` helper does not include the title, but live `storyCards` objects expose the player-facing Story Card Name as `card.title`. LewdLeah's Auto-Cards and Automata-Dungeon scripts both directly mutate `card.title` (along with other Story Card fields), so AutoGenderedWords 1.1 uses the same established scripting pattern. This remains marked beta until independently confirmed in AutoGenderedWords testing.
 
 ---
 
@@ -747,7 +747,7 @@ Plot Essentials
 Author's Note
 Existing Story Card Entries
 Existing Story Card Triggers/Keys
-Story Card Names/Titles when exposed by the runtime
+Story Card Names/Titles
 ~~~
 
 ### Not Supported
